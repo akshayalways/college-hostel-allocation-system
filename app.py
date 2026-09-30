@@ -30,8 +30,7 @@ def login_required(role):
             if session.get("role") != role:
                 if role == "student":
                     return redirect(url_for("login"))
-                else:
-                    return redirect(url_for("admin_login"))
+                return redirect(url_for("admin_login"))
             return func(*args, **kwargs)
 
         return wrapper
@@ -56,7 +55,7 @@ def register():
             request.form["gender"],
             request.form["course"].strip(),
             request.form["year"],
-            request.form["address"].strip(),
+            request.form["address"].strip()
         )
 
         conn = get_db_connection()
@@ -77,7 +76,11 @@ def register():
                 INSERT INTO student_account
                 (student_id, email, password)
                 VALUES (%s, %s, %s)
-            """, (student_id, data[1], "ChangeMe@123"))
+            """, (
+                student_id,
+                data[1],
+                "ChangeMe@123"
+            ))
 
             conn.commit()
 
@@ -111,9 +114,9 @@ def login():
                    student.email
             FROM student
             JOIN student_account
-              ON student.student_id = student_account.student_id
+            ON student.student_id = student_account.student_id
             WHERE student_account.email = %s
-              AND student_account.password = %s
+            AND student_account.password = %s
         """, (email, password))
 
         student = cur.fetchone()
@@ -158,7 +161,7 @@ def dashboard():
                h.hostel_type
         FROM application a
         JOIN hostel h
-          ON a.hostel_id = h.hostel_id
+        ON a.hostel_id = h.hostel_id
         WHERE a.student_id = %s
         ORDER BY a.application_id DESC
         LIMIT 1
@@ -173,9 +176,9 @@ def dashboard():
                h.hostel_name
         FROM allocation al
         JOIN room r
-          ON al.room_id = r.room_id
+        ON al.room_id = r.room_id
         JOIN hostel h
-          ON r.hostel_id = h.hostel_id
+        ON r.hostel_id = h.hostel_id
         WHERE al.student_id = %s
         ORDER BY al.allocation_id DESC
         LIMIT 1
@@ -263,7 +266,7 @@ def application_status():
                h.location
         FROM application a
         JOIN hostel h
-          ON a.hostel_id = h.hostel_id
+        ON a.hostel_id = h.hostel_id
         WHERE a.student_id = %s
         ORDER BY a.application_id DESC
     """, (session["student_id"],))
@@ -296,7 +299,7 @@ def admin_login():
                    email
             FROM admin_account
             WHERE email = %s
-              AND password = %s
+            AND password = %s
         """, (email, password))
 
         admin = cur.fetchone()
@@ -336,9 +339,9 @@ def admin_dashboard():
                h.hostel_name
         FROM application a
         JOIN student s
-          ON a.student_id = s.student_id
+        ON a.student_id = s.student_id
         JOIN hostel h
-          ON a.hostel_id = h.hostel_id
+        ON a.hostel_id = h.hostel_id
         ORDER BY a.application_id DESC
     """)
 
@@ -353,7 +356,7 @@ def admin_dashboard():
                h.hostel_name
         FROM room r
         JOIN hostel h
-          ON r.hostel_id = h.hostel_id
+        ON r.hostel_id = h.hostel_id
         ORDER BY h.hostel_name,
                  r.room_number
     """)
@@ -384,7 +387,7 @@ def approve_application(application_id):
             UPDATE application
             SET status = 'Approved'
             WHERE application_id = %s
-              AND status = 'Pending'
+            AND status = 'Pending'
         """, (application_id,))
 
         conn.commit()
@@ -413,7 +416,7 @@ def reject_application(application_id):
             UPDATE application
             SET status = 'Rejected'
             WHERE application_id = %s
-              AND status = 'Pending'
+            AND status = 'Pending'
         """, (application_id,))
 
         conn.commit()
