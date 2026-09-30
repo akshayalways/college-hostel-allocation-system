@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>College Hostel Allocation System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<nav class="navbar">
+    <h2>🏠 Hostel Allocation System</h2>
+    <span>College Hostel Portal</span>
+</nav>
+
+<section class="hero">
+    <h1>College Hostel Allocation System</h1>
+    <p>A simple platform for hostel applications, approvals and room allocation.</p>
+    <div class="buttons">
+        <a href="{{ url_for('login') }}" class="btn student">Student Login</a>
+        <a href="{{ url_for('admin_login') }}" class="btn admin">Admin Login</a>
+    </div>
+</section>
+
+<section class="features">
+    <div class="card"><h3>👨‍🎓 Student Management</h3><p>Register students and manage hostel applications.</p></div>
+    <div class="card"><h3>🏢 Hostel Management</h3><p>Manage hostels, rooms and available capacity.</p></div>
+    <div class="card"><h3>🛏️ Room Allocation</h3><p>Allocate available rooms to approved students.</p></div>
+</section>
+</body>
+</html>

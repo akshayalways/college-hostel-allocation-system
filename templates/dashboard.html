@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head><title>Student Dashboard</title><link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head>
+<body>
+<nav class="navbar"><h2>🏠 Hostel Allocation System</h2><a href="{{ url_for('logout') }}">Logout</a></nav>
+<div class="dashboard">
+<h1>Welcome, {{ student.name }}! 👋</h1>
+<p>{{ student.course }} · Year {{ student.year }}</p>
+
+<div class="dashboard-cards">
+<div class="card"><h3>🏠 Apply for Hostel</h3><p>Submit a hostel application.</p><a class="small-btn" href="{{ url_for('apply_hostel') }}">Apply Now</a></div>
+<div class="card"><h3>📋 My Application</h3><p>Check your application status.</p><a class="small-btn" href="{{ url_for('application_status') }}">View Status</a></div>
+<div class="card"><h3>🛏️ Room Allocation</h3>
+{% if allocation %}<p>{{ allocation.hostel_name }} · Room {{ allocation.room_number }}</p>
+{% else %}<p>No room allocated yet.</p>{% endif %}
+</div>
+</div>
+
+{% if application %}
+<div class="panel"><h2>Latest Application</h2><p><b>Hostel:</b> {{ application.hostel_name }}</p><p><b>Status:</b> <span class="badge">{{ application.status }}</span></p></div>
+{% endif %}
+</div>
+</body>
+</html>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head><title>Application Status</title><link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head>
+<body>
+<nav class="navbar"><h2>🏠 Hostel Allocation System</h2><a href="{{ url_for('dashboard') }}">Dashboard</a></nav>
+<div class="table-container">
+<h1>My Applications 📋</h1>
+<table>
+<tr><th>ID</th><th>Hostel</th><th>Date</th><th>Status</th></tr>
+{% for a in applications %}
+<tr><td>{{ a.application_id }}</td><td>{{ a.hostel_name }}</td><td>{{ a.application_date }}</td><td><span class="badge">{{ a.status }}</span></td></tr>
+{% else %}<tr><td colspan="4">No applications yet.</td></tr>{% endfor %}
+</table>
+</div>
+</body>
+</html>

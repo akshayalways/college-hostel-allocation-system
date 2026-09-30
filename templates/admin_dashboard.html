@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head><title>Admin Dashboard</title><link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head>
+<body>
+<nav class="navbar"><h2>🏠 Admin Dashboard</h2><a href="{{ url_for('logout') }}">Logout</a></nav>
+<div class="table-container">
+<h1>Applications</h1>
+<table>
+<tr><th>ID</th><th>Student</th><th>Email</th><th>Hostel</th><th>Status</th><th>Action</th></tr>
+{% for a in applications %}
+<tr>
+<td>{{ a.application_id }}</td><td>{{ a.student_name }}</td><td>{{ a.email }}</td><td>{{ a.hostel_name }}</td><td>{{ a.status }}</td>
+<td>
+{% if a.status == 'Pending' %}
+<form class="inline" method="POST" action="{{ url_for('approve_application', application_id=a.application_id) }}"><button>Approve</button></form>
+<form class="inline" method="POST" action="{{ url_for('reject_application', application_id=a.application_id) }}"><button class="danger">Reject</button></form>
+{% elif a.status == 'Approved' %}
+<form method="POST" action="{{ url_for('allocate_room', application_id=a.application_id) }}">
+<select name="room_id" required>
+<option value="">Select room</option>
+{% for r in rooms if r.room_status != 'Full' and r.occupied < r.capacity %}
+<option value="{{ r.room_id }}">{{ r.hostel_name }} - {{ r.room_number }} ({{ r.occupied }}/{{ r.capacity }})</option>
+{% endfor %}
+</select>
+<button>Allocate</button>
+</form>
+{% else %}—{% endif %}
+</td>
+</tr>
+{% else %}<tr><td colspan="6">No applications.</td></tr>{% endfor %}
+</table>
+
+<h1>Rooms</h1>
+<table>
+<tr><th>Hostel</th><th>Room</th><th>Capacity</th><th>Occupied</th><th>Status</th></tr>
+{% for r in rooms %}
+<tr><td>{{ r.hostel_name }}</td><td>{{ r.room_number }}</td><td>{{ r.capacity }}</td><td>{{ r.occupied }}</td><td>{{ r.room_status }}</td></tr>
+{% endfor %}
+</table>
+</div>
+</body>
+</html>

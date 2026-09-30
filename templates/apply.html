@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head><title>Apply for Hostel</title><link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head>
+<body>
+<nav class="navbar"><h2>🏠 Hostel Allocation System</h2><a href="{{ url_for('dashboard') }}">Dashboard</a></nav>
+<div class="form-container">
+<h1>Apply for Hostel 🏠</h1>
+{% if message %}<div class="message">{{ message }}</div>{% endif %}
+<form method="POST">
+<label>Select Hostel</label>
+<select name="hostel_id" required>
+<option value="">Choose hostel</option>
+{% for h in hostels %}<option value="{{ h.hostel_id }}">{{ h.hostel_name }} ({{ h.hostel_type }})</option>{% endfor %}
+</select>
+<button type="submit">Submit Application</button>
+</form>
+</div>
+</body>
+</html>
